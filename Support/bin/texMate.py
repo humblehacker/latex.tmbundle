@@ -393,23 +393,23 @@ def constructEngineCommand(tsDirectives,tmPrefs,packages):
           xelatex
           texexec  -- although I'm not sure how compatible context is with any of this
     """
-    engine = "pdflatex"
+    engine = tmPrefs['latexEngine']
+    if engine == 'auto-detect':
+        engine = "pdflatex"
 
-    latexIndicators = ['pstricks' , 'xyling' , 'pst-asr' , 'OTtablx' , 'epsfig' ]
-    xelatexIndicators = ['xunicode', 'fontspec']
+        latexIndicators = ['pstricks' , 'xyling' , 'pst-asr' , 'OTtablx' , 'epsfig' ]
+        xelatexIndicators = ['xunicode', 'fontspec']
 
-    if 'TS-program' in tsDirectives:
-        engine = tsDirectives['TS-program']
-    elif usesOnePackage(latexIndicators,packages):
-        engine = 'latex'
-    elif usesOnePackage(xelatexIndicators,packages):
-        engine = 'xelatex'
-    else:
-        engine = tmPrefs['latexEngine']
-    stat = os.system('type '+engine+' > /dev/null')
-    if stat != 0:
-        print '<p class="error">Error: %s is not found, you need to install LaTeX or be sure that your PATH is setup properly.</p>' % engine
-        sys.exit(1)
+        if 'TS-program' in tsDirectives:
+            engine = tsDirectives['TS-program']
+        elif usesOnePackage(xelatexIndicators,packages):
+            engine = 'xelatex'
+        elif usesOnePackage(latexIndicators,packages):
+            engine = 'latex'
+        stat = os.system('type '+engine+' > /dev/null')
+        if stat != 0:
+            print '<p class="error">Error: %s is not found, you need to install LaTeX or be sure that your PATH is setup properly.</p>' % engine
+            sys.exit(1)
     return engine
 
 def getFileNameWithoutExtension(fileName):
