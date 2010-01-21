@@ -398,7 +398,7 @@ def constructEngineCommand(tsDirectives,tmPrefs,packages):
         engine = "pdflatex"
 
         latexIndicators = ['pstricks' , 'xyling' , 'pst-asr' , 'OTtablx' , 'epsfig' ]
-        xelatexIndicators = ['xunicode', 'fontspec']
+        xelatexIndicators = ['xunicode', 'fontspec', 'mathspec']
 
         if 'TS-program' in tsDirectives:
             engine = tsDirectives['TS-program']
